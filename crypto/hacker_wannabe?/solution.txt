@@ -1,2 +1,0 @@
-decode brainfuck
-decode base64
