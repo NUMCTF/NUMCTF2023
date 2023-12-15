@@ -1,2 +1,2 @@
-build:
-	gcc register.c -o register -no-pie
+register:
+	gcc register.c -o register -no-pie -fno-stack-protector

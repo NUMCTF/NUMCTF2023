@@ -4,7 +4,7 @@ from pwn import *
 exe = context.binary = ELF(args.EXE or './register')
 
 host = args.HOST or '127.0.0.1'
-port = int(args.PORT or 10000)
+port = int(args.PORT or 10002)
 
 def start_local(argv=[], *a, **kw):
     '''Execute the target binary locally'''

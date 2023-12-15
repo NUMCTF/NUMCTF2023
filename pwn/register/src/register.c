@@ -97,7 +97,6 @@ int main() {
 
     int choice;
     struct User *user;
-    user->displayInfo = &displayUserInfo;
     user = malloc(sizeof(struct User));
     do {
         action();
