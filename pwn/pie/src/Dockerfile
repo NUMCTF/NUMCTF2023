@@ -1,26 +1,16 @@
-# sudo docker build -t pie .
-# sudo docker run -p 10000:10000 pie:latest
-
+# sudo docker build -t myagmartseren/numctf:pie .
+# sudo docker run -p 10000:10000 myagmartseren/numctf:pie
 FROM ubuntu:22.04
 
-RUN useradd -m ctf
-WORKDIR /src
-RUN apt update
-RUN apt install gcc xinetd make cowsay -y
-
-COPY xinetd.conf /etc/xinetd.d/ctf
-COPY Makefile /src
-COPY ./flag.txt /
-COPY ./pie.c /src
-COPY run.sh /src
-
-RUN make
-
-RUN chmod 444 /flag.txt
-RUN chmod +x /src/run.sh
-RUN sed -i -e 's/\r$//' /src/run.sh
-RUN sed -i -e 's/\r$//' /etc/xinetd.d/ctf
-RUN rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
-
-CMD ["/bin/bash", "/src/run.sh"]
+RUN apt-get update && apt-get install -y socat dash
 EXPOSE 10000
+
+RUN useradd -m ctf
+COPY pie /home/ctf/
+COPY flag.txt /home/ctf/
+WORKDIR /home/ctf
+
+RUN chmod 444 /home/ctf/flag.txt
+
+USER ctf
+CMD ["socat", "tcp-l:10000,reuseaddr,fork", "EXEC:./pie"]

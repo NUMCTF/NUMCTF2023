@@ -1,10 +1,2 @@
-#!/bin/bash
-trap stop SIGTERM SIGINT SIGQUIT SIGHUP ERR
-
-stop() {
-  echo "Stopped"
-  exit 0
-}
-
-/etc/init.d/xinetd start;
-sleep infinity;
+docker build -t myagmartseren/numctf:pie .
+docker run -p 10000:10000 myagmartseren/numctf:pie

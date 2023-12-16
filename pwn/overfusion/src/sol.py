@@ -3,7 +3,7 @@ from pwn import *
 
 exe = context.binary = ELF(args.EXE or './overfusion')
 
-host = args.HOST or '127.0.0.1'
+host = args.HOST or 'netconf.num.edu.mn'
 port = int(args.PORT or 10001)
 
 def start_local(argv=[], *a, **kw):

